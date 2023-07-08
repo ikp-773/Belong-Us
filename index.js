@@ -37,23 +37,27 @@ app.post('/search', (req, res) => {
     const filters = req.body.filters;
     var queryString = '';
 
-    if(filters){
-    const otValues = filters.ot || [];
-    const licValues = filters.lic || [];
+    if (filters) {
+        const otValues = filters.ot || [];
+        const licValues = filters.lic || [];
+        const pgs=filters.pgs||1;
 
 
-    if (otValues.length > 0) {
-        otValues.forEach(value => {
-            queryString += "&ot=" + value;
-        });
+        if (otValues.length > 0) {
+            otValues.forEach(value => {
+                queryString += "&ot=" + value;
+            });
+        }
+
+        if (licValues.length == 1) {
+            licValues.forEach(value => {
+
+                queryString += "&lic=" + value;
+            });
+        }
+
+        queryString=queryString+"&pgs="+pgs;
     }
-
-    if (licValues.length == 1) {
-        licValues.forEach(value => {
-
-            queryString += "&lic=" + value;
-        });
-    }}
 
     console.log(queryString);
 
