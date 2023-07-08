@@ -38,8 +38,8 @@ app.post('/search', (req, res) => {
     var queryString = '';
 
     if(filters){
-    const otValues = filter.ot || [];
-    const licValues = filter.lic || [];
+    const otValues = filters.ot || [];
+    const licValues = filters.lic || [];
 
 
     if (otValues.length > 0) {
