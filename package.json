@@ -1,0 +1,28 @@
+{
+  "name": "alamy-microservice",
+  "version": "1.0.0",
+  "description": "microservice for alamy api",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:dev":"nodemon index.js --legacy-watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ikp-773/alamy-microservice.git"
+  },
+  "author": "ikp-773",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ikp-773/alamy-microservice/issues"
+  },
+  "homepage": "https://github.com/ikp-773/alamy-microservice#readme",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.9"
+  }
+}
