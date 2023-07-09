@@ -16,15 +16,9 @@ app.use(express.json());
 
 
 app.get('/get-all', (req, res) => {
-    axios.get(baseURL + "?qt=trending")
+    axios.get(baseURL + "&qt=trending&pg=50")
         .then(response => {
-            xml2js.parseString(response.data, (error, result) => {
-                if (error) {
-                    res.status(500).json({ error: 'Conversion of XML to JSON failed' });
-                } else {
-                    res.json(result);
-                }
-            });
+           res.json(response.data)
         })
         .catch(err => {
             console.error(err);
