@@ -4,7 +4,7 @@ const port = process.env.port || 3000;
 const axios = require('axios');
 const xml2js = require('xml2js');
 
-const baseURL = 'https://api.alamy.com/images/api/v2/search'
+const baseURL = 'https://www.alamy.com/search-api/search/?sortBy=relevant&ispartial=true&langcode=en&type=picture&geo=IN' //'https://api.alamy.com/images/api/v2/search'
 
 
 app.use(express.json());
@@ -44,42 +44,52 @@ app.post('/search', (req, res) => {
 
 
         if (otValues.length > 0) {
+            queryString += "&ot="
             otValues.forEach(value => {
-                queryString += "&ot=" + value;
+                switch(value){
+                    case 1: queryString += "landscape," ;break;
+                    case 2: queryString += "portrait,"; break;
+                    case 4: queryString += "panoramic,"; break;
+                    case 8: queryString += "square,"; break;
+                }
+                
             });
         }
+
+        queryString = queryString.slice(0, -1);
+
 
         if (licValues.length == 1) {
             licValues.forEach(value => {
+                if(value==1){
+                    queryString += "&lic=rf" ;
 
-                queryString += "&lic=" + value;
+                } if (value == 2) {
+                    queryString += "&lic=rm";
+
+                }
             });
         }
 
-        queryString=queryString+"&pgs="+pgs;
+        queryString=queryString+"&ps="+pgs;
     }
 
     console.log(queryString);
 
     console.log(req.body)
-    console.log(baseURL + `?qt=${query}` + queryString);
+    console.log(baseURL + `&qt=${query}` + queryString);
 
-    axios.get(baseURL + `?qt=${query}` + queryString)
+    axios.get(baseURL + `&qt=${query}` + queryString)
         .then(response => {
+            console.log(response.data);
+            res.json(response.data); 
 
-            xml2js.parseString(response.data, (error, result) => {
-                if (error) {
-
-                    res.status(500).json({ error: 'Internal Server Error' });
-                } else {
-
-                    res.json(result);
-                }
-            });
+          
         })
         .catch(error => {
+            // console.log(error);
             // Handle errors and send an appropriate response to the frontend
-            res.status(500).json({ error: 'Internal Server Error' });
+            res.status(500).json({ error: error },);
         });
 });
 
